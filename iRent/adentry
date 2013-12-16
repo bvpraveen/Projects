@@ -1,5 +1,0 @@
-<?php
-echo $_POST['price']
-echo $_POST['bedrooms'];
-echo $_POST['locality'];
-?>
