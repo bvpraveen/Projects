@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+
+<style type="text/css">      
+html { height: 100% } 
+body { height: 100%; margin: 0; padding: 0 }      
+
+</style>    
+
+<title> Contact us</title>
+</head>
+
+<body>
+<div id="heading1" style="color:#FFFFFF;background-color:#0000FF;height:11%">
+&nbsp;&nbsp;&nbsp;<font size="+3">iRent</font>&nbsp;
+<font>Map your rental needs</font>
+<BR>
+<label id="fbusername"></label>
+<fb:login-button autologoutlink='true' data-show-faces='false' perms='email,user_birthday,status_update,publish_stream' width='200' data-max-rows='1'  style="position:absolute;right:400px"></fb:login-button>
+<a href="home.php" style="color:#FFFFFF;position:absolute;right:350px">Home</a>
+<a href="postad.php" style="color:#FFFFFF;position:absolute;right:250px">Posted by me</a>
+<a href="postad.php" style="color:#FFFFFF;position:absolute;right:155px">Post new Ad</a>
+<a href="" style="color:#FFFFFF;position:absolute;right:75px">Contact us</a>
+<a href="" style="color:#FFFFFF;position:absolute;right:5px">Feedback</a>
+</div>
+
+
+<form action="contactus.php" method="post">
+<h1>Contact us</h1>
+<table  cellspacing="2" cellpadding="5" align="center">
+<tr>
+<td>
+<label>You can reach us on irentfeedback@gmail.com or please fill in below details to give feedback or ask queries.</Label>
+</td>
+</tr>
+</table>
+<table  cellspacing="2" cellpadding="5" align="center">
+<tr>
+	<td>Email Id:</td>
+	<td><input type="text" name="emailid"></td>
+</tr>
+<tr>
+	<td>Phone No.:</td>
+	<td><input type="text" name="phone"></td>
+</tr>
+<tr>
+	<td>Subject:</td>
+	<td><input type="text" name="subject" size="50"></td>
+</tr>
+<tr>
+	<td>Feedback:</td>
+	<td><textarea rows="10" cols="50"  name="message" heigth="100"></textarea></td>
+</tr>
+</table>
+<center>
+<input type="submit" value="Send Feedback"></input>
+<input type="button" value="Cancel" onclick="parent.location='home.php'">
+</center>
+</form>
+</body>
+</html>
