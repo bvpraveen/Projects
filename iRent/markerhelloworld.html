@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript"      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB8gW7KScUDWnuLg4SGYcTA1XP5MbWk6LM&sensor=true">    </script>
+<script>
+
+initialize()
+{
+var myLatlng = new google.maps.LatLng(17.48,78.33);  var myOptions = {    zoom: 4,    center: myLatlng,    mapTypeId: google.maps.MapTypeId.ROADMAP  }  var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);  var marker = new google.maps.Marker({      position: myLatlng,      map: map,      title:"Hello World!"  });
+}	
+</script>
+</head>
+<body onload=initialize()>
+<div id="map_canvas" style="width:100%; height:100%">
+</body>
+</html>

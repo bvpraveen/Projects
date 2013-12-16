@@ -1,0 +1,46 @@
+<?php 
+
+///// functions ///// 
+
+function myFirst(){ 
+    echo 'The First ran successfully.'; 
+} 
+
+function mySecond(){ 
+    echo 'The Second ran successfully.'; 
+} 
+
+///// START ///// 
+
+?> 
+<html><body> 
+
+<?php 
+
+if (isset($_GET['run'])) $linkchoice=$_GET['run']; 
+else $linkchoice=''; 
+
+switch($linkchoice){ 
+
+case 'first' : 
+    myFirst(); 
+    break; 
+
+case 'second' : 
+    mySecond(); 
+    break; 
+
+default : 
+    echo 'no run'; 
+
+} 
+
+?> 
+<hr> 
+<a href="?run=first">Link to First</a> 
+<br> 
+<a href="?run=second">Link to Second</a> 
+<br> 
+<a href="?run=0">Refresh No run</a> 
+
+</body></html> 

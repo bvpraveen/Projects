@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />    
+
+<style type="text/css">      
+html { height: 100% } 
+body { height: 100%; margin: 0; padding: 0 }      
+
+#filter1{ position: absolute;
+top: 80px;left: 100px;}
+
+#map_canvas { height:50%; width:50%;position: absolute }
+
+#location { position: absolute} 
+
+#adform { position: absolute;
+top:80px;left:20px} 
+
+
+#photos { position: absolute;left:500px; top:450px;} 
+
+#buttons { position: absolute;left:400px;
+bottom:0px;} 
+
+</style>    
+
+
+
+<script type="text/javascript"      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB8gW7KScUDWnuLg4SGYcTA1XP5MbWk6LM&sensor=true">    
+</script>   
+
+<script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+
+
+<script type="text/javascript">  
+
+var map;
+var geocoder;
+
+var markersArray = [];
+var placeMarker, searchMarker;
+
+function initialize() 
+{  
+
+	var myLatlng = new google.maps.LatLng(17.48,78.33);  
+	geocoder= new google.maps.Geocoder();    
+
+	var myOptions = {          center: myLatlng,          
+			   zoom: 14,          
+			   mapTypeId:google.maps.MapTypeId.ROADMAP        
+		};    
+	if(map== null)
+	{
+	 map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);      
+	 }
+    var input = document.getElementById('address');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.bindTo('bounds', map);
+    var infowindow = new google.maps.InfoWindow();
+    var marker = new google.maps.Marker({
+          map: map
+          });
+   google.maps.event.addListener(autocomplete, 'place_changed', function() {
+   	infowindow.close();
+	   var place = autocomplete.getPlace();
+       if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+          } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17);  // Why 17? Because it looks good.
+        }
+        var image = new google.maps.MarkerImage(
+              place.icon,
+              new google.maps.Size(71, 71),
+              new google.maps.Point(0, 0),
+              new google.maps.Point(17, 34),
+              new google.maps.Size(35, 35));
+          marker.setIcon(image);
+          marker.setPosition(place.geometry.location);
+
+         var address = '';
+          if (place.address_components) {
+            address = [
+              (place.address_components[0] && place.address_components[0].short_name || ''),
+              (place.address_components[1] && place.address_components[1].short_name || ''),
+              (place.address_components[2] && place.address_components[2].short_name || '')
+            ].join(' ');
+          }
+
+          infowindow.setContent('<div><strong>' + place.name + '</strong><br>'+address);
+          //infowindow.open(map, marker);
+        });	
+		    
+	// map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);      
+	//var marker = new google.maps.Marker({      position: myLatlng,      map: map,      title:"Hello World!"  });
+	google.maps.event.addListener(map, 'dblclick', function(event) {    addMarker(event.latLng);  });	
+
+}
+
+function addMarker(location) { 
+
+//var place=window.prompt("Enter the place name:");
+var place=document.getElementById("address").value;  
+var image = new google.maps.MarkerImage('forrent.jpg');
+if(placeMarker != null)//set the existing marker to null
+placeMarker.setMap(null);
+placeMarker = new google.maps.Marker({    position: location,    map: map, title: place, icon:image  }); 
+rentdetails.lat.value=location.lat();
+rentdetails.lang.value=location.lng();
+markersArray.push(placeMarker); 
+  } 
+ 
+ function codeAddress() 
+ {    
+
+ 	var address = document.getElementById("address").value;    
+ 	var image = new google.maps.MarkerImage('forrent.jpg');
+ 	geocoder.geocode( { 'address': address}, function(results, status) {      
+ 	if (status == google.maps.GeocoderStatus.OK) {
+ 	map.setCenter(results[0].geometry.location); 
+ 	if(searchMarker != null)
+ 	{
+ 		searchMarker.setMap(null);
+ 	}
+ 	searchMarker = new google.maps.Marker({            
+ 	map: map,            
+ 	position: results[0].geometry.location,
+ 	//icon: image	        
+ 	});      
+ 	} else {       
+ 	 alert("Unable to locate due to error:" + status);      }    
+ 	 }
+ 	 );
+ 	 
+}
+ google.maps.event.addDomListener(window, 'load', initialize);
+</script>  
+
+</head>  
+<body onload="initialize()">    
+<form name="rentdetails" action="AdEntry.php" method="post" >
+<div id="heading1" style="color:#FFFFFF;background-color:#0000FF;height:10%">
+&nbsp;&nbsp;&nbsp;<font size="+3">iRent</font>&nbsp;
+<font>Synonym for finding the right rental and sale properties faster...</font>
+<BR>
+<a href="" style="color:#FFFFFF;position:absolute;right:270px">Favourites</a>
+<a href="postad.php" style="color:#FFFFFF;position:absolute;right:205px">Post Ad</a>
+<a href="" style="color:#FFFFFF;position:absolute;right:140px">Settings</a>
+<a href="" style="color:#FFFFFF;position:absolute;right:75px">Sign out</a>
+<a href="" style="color:#FFFFFF;position:absolute;right:5px">Feedback</a>
+</div>
+<div id="adform">
+<select name="bedrooms" size="1">
+	<option value="one" >1BHK</option>
+	<option value="two">2BHK</option>
+	<option value="three">3BHK</option>
+	<option value="four">4BHK</option>
+	<option value="four">5BHK</option>
+</select>
+<select name="furnishing" size="1">
+	       <option value="semi">Semi-Furnished</option>
+		    <option value="full">Fully-Furnished</option>
+			 <option value="un">Unfurnished</option>
+</select>
+<select name="HouseType" size="1">
+	       <option value="Apartment">Apartment</option>
+		    <option value="Independent house">Independent house</option>
+			 <option value="Villa">Villa</option>
+			 <option value="Duplex">Duplex</option>
+</select>
+for
+<select name="purpose" size="1">
+			 <option value="sale">Rent</option>
+			 <option value="rent">Sale</option>
+</select>
+
+<div id="location" >
+<input type="HIDDEN" name="lat" value="">
+<input type="HIDDEN" name="lang" value="">
+Location:<input type="text" name="address"  id="address" size="40"></input>&nbsp;&nbsp;
+<input type="button" value="Search" onclick="codeAddress()">
+</div>
+<div id="map_canvas"></div>
+
+
+<table cellpadding="4"	  bgcolor="#8080FF" bordercolor="#0000FF" align="center">
+<tr>
+		<td>Property size:</td>
+	<td><input type="text" name="">sqft.</td>
+</tr>
+<tr>
+	<td>Property facing</td>
+	<td><select name="facing" size="1">
+	<option value="east">East</option>
+	<option value="west">West</option>
+	<option value="north">North</option>
+	<option value="south">South</option>
+</select></td>
+</tr>
+<tr>
+	<td>Floor:</td>
+	<td><input type="text" name=""></td>
+</tr>
+<tr>
+	<td>Price:</td>
+	<td><input type="text" name="price"></td>
+</tr>
+<tr>
+	<td>Flooring:</td>
+	<td><select name="flooring" size="1">
+	<option value="marble">Marble</option>
+	<option value="Tiles">Tiles</option>
+	<option value="granite">Granite</option>
+</select></td>
+</tr>
+
+<tr>
+	<td>Amenities:</td>
+	<td>
+	
+<table  cellspacing="2" cellpadding="0" align="center">
+<tr>
+	<td><input type="checkbox" name="Parking">Parking</td>
+	<td><input type="checkbox" name="PowerBackup">Power Backup</td>
+	<td><input type="checkbox" name="Ceiling">Ceiling</td>
+</tr>
+<tr>
+	<td><input type="checkbox" name="Carparking">Car parking</td>
+	<td><input type="checkbox" name="Watchman">Watch man</td>
+	<td><input type="checkbox" name="Woodwork">Wood work</td>
+</tr>
+<tr>
+	<td><input type="checkbox" name="Modular">Modular Kitchen</td>
+	<td><input type="checkbox" name="Lift">Lift</td>
+	<td><input type="checkbox" name="Balcony">Balcony</td>
+</tr>
+<tr>
+	<td><input type="checkbox" name="Play area">Play area</td>
+	<td><input type="checkbox" name="Ventilation">Ventilation</td>
+	<td><input type="checkbox" name="Curtains">Curtains</td>
+</tr>
+</table>
+	</td>
+</tr>
+<tr>
+	<td>Address</td>
+	<td><textarea name="addressvalue" rows="6" cols="30" ></textarea></td>
+</tr>
+</table>
+</div>
+<div id="location" >
+<input type="HIDDEN" name="lat" value="">
+<input type="HIDDEN" name="lang" value="">
+Location:<input type="text" name="address"  id="address" size="40"></input>&nbsp;&nbsp;
+<input type="button" value="Search" onclick="codeAddress()">
+</div>
+<div id="map_canvas"></div>
+
+<div id="photos">
+Photos:<input type="text" name= size="50"></input>
+<input type="button" value="Browse"></input>
+</div>
+
+<div id="buttons">
+<input type="submit" value="Post Ad"></input>
+<input type="button" value="Cancel"></input>
+</div>
+</form>
+</body>
+</html>
